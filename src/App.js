@@ -1,12 +1,11 @@
 import React from 'react';
 import './App.css';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Birdwatchers Log Book - app for birdwatchers</p>
-      </header>
+      <NavBar title="Birdwatchers Log Book"/>
     </div>
   );
 }
