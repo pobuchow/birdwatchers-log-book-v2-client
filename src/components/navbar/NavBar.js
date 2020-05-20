@@ -30,10 +30,10 @@ export default function NavBar(props) {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" className={classes.title} data-testid="navbar-title">
             {props.title}
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button data-testid="navbar-login-button" color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </div>
