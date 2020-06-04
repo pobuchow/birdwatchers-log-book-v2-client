@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+
+import { userService } from '../../services/userService';
+
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -7,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         '& label.Mui-focused': {
             color: '#595142',
-          },
+        },
         '& .MuiFilledInput-underline:after': {
             borderBottomColor: '#595142',
         },
@@ -21,9 +24,9 @@ const useStyles = makeStyles((theme) => ({
         color: '#595142',
         backgroundColor: "#A69677",
         "&:hover": {
-          backgroundColor: "#A69677"
+            backgroundColor: "#A69677"
         }
-      },
+    },
 }));
 
 export default function Login() {
@@ -31,17 +34,19 @@ export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = () => {
-        alert(`user: ${username} pass:  ${password}`);
+        userService.login(username, password).then(
+            user => alert("Here we go again, " + user.username)
+        );
     }
-    
+
     return (
-        <form className={classes.root} noValidate autoComplete="off" onSubmit={ handleSubmit }>
+        <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
             <TextField
                 required
                 id="login-username"
                 label="username"
                 variant="filled"
-                onChange = {(_e) => setUsername(_e.target.value)}
+                onChange={(_e) => setUsername(_e.target.value)}
             />
             <TextField
                 required
@@ -50,7 +55,7 @@ export default function Login() {
                 type="password"
                 autoComplete="current-password"
                 variant="filled"
-                onChange = {(_e) => setPassword(_e.target.value)}
+                onChange={(_e) => setPassword(_e.target.value)}
             />
             < Button variant="contained" className={classes.button} type="submit">Login</Button>
         </form>
