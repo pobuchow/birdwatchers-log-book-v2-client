@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
-import Login from './../login/Login';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,24 +24,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 export default function NavBar(props) {
   const classes = useStyles();
+  let button;
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  if (user) {  
+    button = <Button  data-testid="navbar-logout-button" 
+                      style={{textDecoration: 'none', color: "#ACC3F2"}} 
+                      component={Link}
+                      onClick={() => {
+                        localStorage.removeItem('user');
+                        setUser(null)
+                      }}
+                      to={"/"}>
+                        Logout
+              </Button>
+  } else {      
+    button = <Button  data-testid="navbar-login-button" 
+                      style={{textDecoration: 'none', color: "#ACC3F2"}} 
+                      component={Link} 
+                      to={"/login"}>
+                        Login
+              </Button>
+  }
 
   return (
-    <Router>
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar className={classes.toolbar}>
               <Typography  variant="h6" className={classes.title} data-testid="navbar-title" color="inherit" style={{textDecoration: 'none'}} component={Link} to={"/"}>
                 {props.title}
               </Typography>
-              <Button data-testid="navbar-login-button" style={{textDecoration: 'none', color: "#ACC3F2"}} component={Link} to={"/login"}>Login</Button>
+              {button}
           </Toolbar>
         </AppBar>
       </div>
-      <Switch>
-        <Route path="/login" component={Login} />
-      </Switch>
-    </Router>
   );
 }
