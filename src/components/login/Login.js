@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { userService } from '../../services/userService';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from "history";
 
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -47,6 +47,7 @@ export default function Login() {
                 },
                 error => {
                     alert("Something went wrong, " + error.toString());
+                    console.log(error.toString());  
                 }
             );
     }
