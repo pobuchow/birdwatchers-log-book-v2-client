@@ -47,7 +47,6 @@ export default function Login() {
                 },
                 error => {
                     alert("Something went wrong, " + error.toString());
-                    console.log(error.toString());  
                 }
             );
     }
