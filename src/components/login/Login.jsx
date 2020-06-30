@@ -60,6 +60,7 @@ export default function Login() {
                         id="login-username"
                         label="username"
                         variant="filled"
+                        data-testid="login-username-field"
                         onChange={(_e) => setUsername(_e.target.value)}
                     />
                 </Grid>
@@ -71,10 +72,11 @@ export default function Login() {
                         type="password"
                         autoComplete="current-password"
                         variant="filled"
+                        data-testid="login-password-field"
                         onChange={(_e) => setPassword(_e.target.value)}
                     /></Grid>
                 <Grid item xs={12}>
-                    < Button variant="contained" className={classes.button} type="submit">Login</Button>
+                    < Button variant="contained" className={classes.button} type="submit" data-testid="login-submit-button">Login</Button>
                 </Grid>
             </Grid>
         </form>

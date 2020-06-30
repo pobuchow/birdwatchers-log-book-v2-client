@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Link } from "react-router-dom";
 
@@ -24,19 +24,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 export default function NavBar(props) {
   const classes = useStyles();
+  const {user} = props;
   let button;
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   if (user) {  
     button = <Button  data-testid="navbar-logout-button" 
                       style={{textDecoration: 'none', color: "#ACC3F2"}} 
                       component={Link}
                       onClick={() => {
                         localStorage.removeItem('user');
-                        setUser(null)
+                        props.onLogout();
                       }}
                       to={"/"}>
                         Logout
@@ -44,7 +42,7 @@ export default function NavBar(props) {
   } else {      
     button = <Button  data-testid="navbar-login-button" 
                       style={{textDecoration: 'none', color: "#ACC3F2"}} 
-                      component={Link} 
+                      component={Link}
                       to={"/login"}>
                         Login
               </Button>

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-export default function HomePage() {
-    const [user] = useState(JSON.parse(localStorage.getItem('user')));
+export default function HomePage(props) {
 
 return (
     <div data-testid="homepage-hello-text" >
-        Hello, {user ? user.username : ' please log in'}
+        Hello, {props.user ? props.user.username : ' please log in'}
     </div>
 );
 }
