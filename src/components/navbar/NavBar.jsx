@@ -33,7 +33,6 @@ export default function NavBar(props) {
                       style={{textDecoration: 'none', color: "#ACC3F2"}} 
                       component={Link}
                       onClick={() => {
-                        localStorage.removeItem('user');
                         props.onLogout();
                       }}
                       to={"/"}>

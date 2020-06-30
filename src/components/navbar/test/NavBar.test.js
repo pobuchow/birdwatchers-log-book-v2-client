@@ -27,10 +27,10 @@ it('renders navbar with title', ()=>{
     expect(getByTestId('navbar-title')).toHaveTextContent('TEST TITLE');
 })
 
-it('renders navbar with button login', ()=>{
+it('renders navbar with button login when user is null', ()=>{
     const {getByTestId} = render(
         <BrowserRouter>
-            <NavBar title='TEST TITLE'/>
+            <NavBar title='TEST TITLE' user={null}/>
         </BrowserRouter>);
     expect(getByTestId('navbar-login-button')).toHaveTextContent('Login');
     expect(
@@ -38,13 +38,11 @@ it('renders navbar with button login', ()=>{
       ).not.toBeInTheDocument()
 })
 
-it('renders navbar with button logout when there is a user in localstorage', ()=>{
-    Storage.prototype.getItem = jest.fn(() => JSON.stringify( {
-        username: 'tester'
-    }));
+it('renders navbar with button logout when user is logged', ()=>{
+    const user = {username: 'mockedUser'};
     const {getByTestId} = render(
         <BrowserRouter>
-            <NavBar title='TEST TITLE'/>
+            <NavBar title='TEST TITLE' user={user} />
         </BrowserRouter>);
     expect(getByTestId('navbar-logout-button')).toHaveTextContent('Logout');
     expect(

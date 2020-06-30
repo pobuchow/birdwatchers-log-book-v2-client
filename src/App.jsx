@@ -10,6 +10,7 @@ import HomePage from './components/homePage/HomePage';
 function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   function handleLogout(){
+    localStorage.removeItem('user');
     setUser(null);
   }
   return (
