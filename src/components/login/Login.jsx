@@ -41,8 +41,7 @@ export default function Login() {
     const handleSubmit = async () => {
         userService.login(username, password)
             .then(
-                user => {
-                    alert("Here we go again, " + user.username);
+                () => {
                     history.push("/home");
                 },
                 error => {
