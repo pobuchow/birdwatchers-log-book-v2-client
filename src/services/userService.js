@@ -3,18 +3,26 @@ export const userService = {
     logout
 };
 
-async function login(username, password) {
+function login(username, password) {
     let token = createAuthToken(username, password);
     const requestOptions = {
         method: 'GET',
-        headers: { 'Authorization': createBasicAuthToken(token) }
+        headers: { 
+            "Access-Control-Allow-Origin": "*",
+            'Authorization': createBasicAuthToken(token) 
+        }
     };
-    localStorage.setItem('user',JSON.stringify({
+    const user = JSON.stringify({
         'username' : username,
         'token' : token
-    }));
+    });
+    
     return fetch(process.env.REACT_APP_API_URL + '/auth/basic', requestOptions)
-        .then(handleResponse);
+        .then(handleResponse)
+        .then((response) =>{
+            localStorage.setItem('user', user);
+            return response;
+        })   
 }
 
 function createBasicAuthToken(token) {
