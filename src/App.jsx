@@ -5,13 +5,13 @@ import './App.css';
 import NavBar from './components/navbar/NavBar';
 import Login from './components/login/Login';
 import HomePage from './components/homePage/HomePage';
+import { userService } from './services/userService';
 
 
 function App() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+  const [user] = useState(JSON.parse(localStorage.getItem('user')));
   function handleLogout(){
-    localStorage.removeItem('user');
-    setUser(null);
+    userService.logout();
   }
   return (
     <div className="App">

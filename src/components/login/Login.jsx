@@ -38,11 +38,11 @@ export default function Login() {
     const classes = useStyles();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         userService.login(username, password)
             .then(
-                user => {
-                    alert("Here we go again, " + user.username);
+                () => {
                     history.push("/home");
                 },
                 error => {

@@ -3,20 +3,34 @@ export const userService = {
     logout
 };
 
-async function login(username, password) {
+function login(username, password) {
+    let token = createAuthToken(username, password);
     const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        method: 'GET',
+        headers: { 
+            "Access-Control-Allow-Origin": "*",
+            'Authorization': createBasicAuthToken(token) 
+        }
     };
+    const user = JSON.stringify({
+        'username' : username,
+        'token' : token
+    });
+    
+    return fetch(process.env.REACT_APP_API_URL + '/auth/basic', requestOptions)
+        .then(handleResponse)
+        .then((response) =>{
+            localStorage.setItem('user', user);
+            return response;
+        })   
+}
 
-    const response = await fetch(process.env.REACT_APP_API_URL + '/users/authenticate', requestOptions);
-    const user = await handleResponse(response);
-    if (user) {
-        user.authdata = window.btoa(username + ':' + password);
-        localStorage.setItem('user', JSON.stringify(user));
-    }
-    return user;
+function createBasicAuthToken(token) {
+    return 'Basic ' + token;
+}
+
+function createAuthToken(username, password) {
+    return window.btoa(username + ":" + password)
 }
 
 function logout() {
@@ -24,16 +38,9 @@ function logout() {
 }
 
 function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            if (response.status === 401) {
-                logout();
-            }
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-
-        return data;
-    });
+    if(!response.ok) {
+        this.logout();
+        throw new Error(response.status);
+    } 
+    return response;
 }
