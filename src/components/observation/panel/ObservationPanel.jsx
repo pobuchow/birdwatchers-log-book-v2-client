@@ -16,7 +16,9 @@ const columns = [
 
 const useStyles = makeStyles({
   root: {
-    width: "100%",
+    width: "80%",
+    margin: "auto",
+    "margin-top": "25px"
   },
   container: {
     maxHeight: 440,
@@ -40,6 +42,7 @@ export default function ObservationPanel(props) {
 
   return (
     <Paper className={classes.root}>
+      Your last observations
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -62,7 +65,7 @@ export default function ObservationPanel(props) {
                   hover
                   role="checkbox"
                   tabIndex={-1}
-                  key={observation.name}
+                  key={observation.id}
                 >
                   {columns.map((column) => {
                     const value = observation[column.id];
