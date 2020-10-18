@@ -57,7 +57,7 @@ export default function ObservationPanel(props) {
   }, [props.size]);
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} data-testid="observation-panel-paper">
       Your last observations
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">

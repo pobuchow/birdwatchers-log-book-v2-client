@@ -1,20 +1,51 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import NavBar from '../ObservationPanel';
-import { BrowserRouter } from 'react-router-dom';
-import {render, cleanup} from '@testing-library/react';
+import React from "react";
+import ReactDOM from "react-dom";
+import { render, cleanup, act } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import {
-    queryByTestId
-  } from '@testing-library/dom'
+import { observationService } from "./../../../../services/observationService";
+import ObservationPanel from "../ObservationPanel";
+import { queryByTestId } from "@testing-library/dom";
 
 afterEach(cleanup);
 
-it('renders without crashing', ()=>{
-    const div = document.createElement('div');
-    ReactDOM.render(
-    <BrowserRouter>
-        <NavBar/>
-    </BrowserRouter>
-    ,div)
-})
+it("renders without crashing", () => {
+  const div = document.createElement("div");
+  ReactDOM.render(<ObservationPanel></ObservationPanel>, div);
+});
+
+it("renders with fetched data", () => {
+  
+  const fakeObservations = [
+    {
+      id: 3,
+      speciesName: "Eurasian three-toed woodpecker",
+      date: "2020-04-19",
+      username: "Diego",
+    },
+    {
+      id: 2,
+      speciesName: "European green woodpecker",
+      date: "2020-04-18",
+      username: "Diego",
+    },
+    {
+      id: 1,
+      speciesName: "Black woodpecker",
+      date: "2020-04-17",
+      username: "Diego",
+    },
+  ];
+  jest
+    .spyOn(observationService, "getLastObservationsForAuthUser")
+    .mockImplementation(() => fakeObservations);
+
+    act(() => {
+        render(<ObservationPanel size={3} />);
+      });
+  
+  expect(
+    queryByTestId(document.documentElement, "observation-panel-paper")
+  ).toBeInTheDocument();
+
+  observationService.getLastObservationsForAuthUser.mockRestore();
+});
