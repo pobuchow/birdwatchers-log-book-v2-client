@@ -15,13 +15,29 @@ const columns = [
 ];
 
 const useStyles = makeStyles({
+  '@global': {
+    '*::-webkit-scrollbar': {
+      width: '0.4em'
+    },
+    '*::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+    },
+    '*::-webkit-scrollbar-thumb': {
+      backgroundColor: 'rgba(0,0,0,.1)',
+      outline: '1px solid slategrey'
+    }
+  },
   root: {
     width: "80%",
     margin: "auto",
-    "margin-top": "25px"
+    marginTop: "25px",
+    backgroundColor: "#BFAE56",
+    color: "#595142"
+    
   },
   container: {
     maxHeight: 440,
+    backgroundColor: "#BFAE56"
   },
 });
 
@@ -51,7 +67,12 @@ export default function ObservationPanel(props) {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{ 
+                    minWidth: column.minWidth,
+                    backgroundColor: "#BFAE56",
+                    borderBottom: "none",
+                    color: "#595142"
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -70,7 +91,10 @@ export default function ObservationPanel(props) {
                   {columns.map((column) => {
                     const value = observation[column.id];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell key={column.id} style={{ 
+                        borderBottom: "none",
+                        color: "#595142"
+                      }} align={column.align}>
                         {column.format && typeof value === "number"
                           ? column.format(value)
                           : value}
