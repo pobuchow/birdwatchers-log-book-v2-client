@@ -5,7 +5,7 @@ import { cleanup, render } from '@testing-library/react';
 import "@testing-library/jest-dom/extend-expect";
 import {
     queryByTestId
-} from '@testing-library/dom'
+} from '@testing-library/dom';
 
 afterEach(cleanup);
 
