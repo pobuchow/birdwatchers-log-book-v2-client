@@ -79,7 +79,7 @@ export default function ObservationPanel(props) {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody data-testid="observation-panel-table-body">
             {observations.map((observation) => {
               return (
                 <TableRow
@@ -94,7 +94,7 @@ export default function ObservationPanel(props) {
                       <TableCell key={column.id} style={{ 
                         borderBottom: "none",
                         color: "#595142"
-                      }} align={column.align}>
+                      }} align={column.align} >
                         {column.format && typeof value === "number"
                           ? column.format(value)
                           : value}

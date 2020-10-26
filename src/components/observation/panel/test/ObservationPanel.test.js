@@ -4,7 +4,7 @@ import { render, cleanup, act } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { observationService } from "./../../../../services/observationService";
 import ObservationPanel from "../ObservationPanel";
-import { queryByTestId } from "@testing-library/dom";
+import { queryByTestId, getByText } from "@testing-library/dom";
 
 afterEach(cleanup);
 
@@ -13,8 +13,7 @@ it("renders without crashing", () => {
   ReactDOM.render(<ObservationPanel></ObservationPanel>, div);
 });
 
-it("renders with fetched data", () => {
-  
+it("renders with fetched data", async () => {  
   const fakeObservations = [
     {
       id: 3,
@@ -39,13 +38,26 @@ it("renders with fetched data", () => {
     .spyOn(observationService, "getLastObservationsForAuthUser")
     .mockImplementation(() => fakeObservations);
 
-    act(() => {
+    await act(async () => {
         render(<ObservationPanel size={3} />);
+        await expect(
+          queryByTestId(document.documentElement, "observation-panel-paper")
+        ).toBeInTheDocument();
+      
+        await expect(
+          queryByTestId(document.documentElement, "observation-panel-table-body")
+        ).toBeInTheDocument();
+      
+        await expect(
+          getByText(document.documentElement, "Black woodpecker")
+        ).toBeInTheDocument();
+
+        await expect(
+          getByText(document.documentElement, "European green woodpecker")
+        ).toBeInTheDocument();
       });
   
-  expect(
-    queryByTestId(document.documentElement, "observation-panel-paper")
-  ).toBeInTheDocument();
+  
 
   observationService.getLastObservationsForAuthUser.mockRestore();
 });

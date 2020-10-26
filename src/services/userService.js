@@ -49,7 +49,7 @@ function logout() {
 
 function handleResponse(response) {
     if(!response.ok) {
-        this.logout();
+        userService.logout();
         throw new Error(response.status);
     } 
     return response;
