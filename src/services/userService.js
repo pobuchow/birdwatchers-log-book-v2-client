@@ -1,6 +1,7 @@
 export const userService = {
     login,
-    logout
+    logout,
+    provideBasicAuthToken
 };
 
 function login(username, password) {
@@ -25,6 +26,14 @@ function login(username, password) {
         })   
 }
 
+function provideBasicAuthToken(){
+    return createBasicAuthToken(getStorageUser().token);
+}
+
+function getStorageUser(){
+    return JSON.parse(localStorage.getItem('user'));
+}
+
 function createBasicAuthToken(token) {
     return 'Basic ' + token;
 }
@@ -35,11 +44,12 @@ function createAuthToken(username, password) {
 
 function logout() {
     localStorage.removeItem('user');
+    window.location.reload();
 }
 
 function handleResponse(response) {
     if(!response.ok) {
-        this.logout();
+        userService.logout();
         throw new Error(response.status);
     } 
     return response;
