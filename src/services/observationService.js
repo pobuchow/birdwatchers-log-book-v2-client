@@ -1,7 +1,8 @@
 import { userService } from './userService';
 
 export const observationService = {
-    getLastObservationsForAuthUser
+    getLastObservationsForAuthUser,
+    deleteObservationForAuthUser
 };
 
 function getLastObservationsForAuthUser(size) {
@@ -13,6 +14,17 @@ function getLastObservationsForAuthUser(size) {
         }
     };
     return fetch(process.env.REACT_APP_API_URL + '/observations/getLast/' + size, requestOptions)
+        .then(handleResponse);
+}
+function deleteObservationForAuthUser(id) {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 
+            "Access-Control-Allow-Origin": "*",
+            'Authorization': userService.provideBasicAuthToken()
+        }
+    };
+    return fetch(process.env.REACT_APP_API_URL + '/observations/delete/' + id, requestOptions)
         .then(handleResponse);
 }
 function handleResponse(response) {
