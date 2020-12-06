@@ -24,7 +24,7 @@ function deleteObservationForAuthUser(id) {
             'Authorization': userService.provideBasicAuthToken()
         }
     };
-    return fetch(process.env.REACT_APP_API_URL + '/observations/delete/' + id, requestOptions)
+    return fetch(process.env.REACT_APP_API_URL + '/observations/' + id, requestOptions)
         .then(handleResponse);
 }
 function handleResponse(response) {

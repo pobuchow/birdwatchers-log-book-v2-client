@@ -7,8 +7,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { observationService } from "../../../services/observationService";
 
 const columns = [
@@ -57,8 +57,13 @@ export default function ObservationPanel(props) {
     fetchObservations();
   }, [props.size]);
 
-  function handleDelete(id){
-    observationService.deleteObservationForAuthUser(id);
+  async function handleDelete(id) {
+    observationService.deleteObservationForAuthUser(id).then(async () => {
+      const result = await observationService.getLastObservationsForAuthUser(
+        props.size
+      );
+      setObservations(result);
+    });
   }
 
   return (
@@ -110,12 +115,18 @@ export default function ObservationPanel(props) {
                       </TableCell>
                     );
                   })}
-                  <TableCell align="right" style={{
-                          borderBottom: "none",
-                          color: "#595142",
-                        }}>
-                    <IconButton aria-label="delete" className={classes.margin} 
-                    onClick={() => handleDelete(observation.id)}>
+                  <TableCell
+                    align="right"
+                    style={{
+                      borderBottom: "none",
+                      color: "#595142",
+                    }}
+                  >
+                    <IconButton
+                      aria-label="delete"
+                      className={classes.margin}
+                      onClick={() => handleDelete(observation.id)}
+                    >
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </TableCell>
