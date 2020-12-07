@@ -7,6 +7,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { observationService } from "../../../services/observationService";
 
 const columns = [
@@ -15,29 +17,28 @@ const columns = [
 ];
 
 const useStyles = makeStyles({
-  '@global': {
-    '*::-webkit-scrollbar': {
-      width: '0.4em'
+  "@global": {
+    "*::-webkit-scrollbar": {
+      width: "0.4em",
     },
-    '*::-webkit-scrollbar-track': {
-      '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+    "*::-webkit-scrollbar-track": {
+      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
     },
-    '*::-webkit-scrollbar-thumb': {
-      backgroundColor: 'rgba(0,0,0,.1)',
-      outline: '1px solid slategrey'
-    }
+    "*::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(0,0,0,.1)",
+      outline: "1px solid slategrey",
+    },
   },
   root: {
     width: "80%",
     margin: "auto",
     marginTop: "25px",
     backgroundColor: "#BFAE56",
-    color: "#595142"
-    
+    color: "#595142",
   },
   container: {
     maxHeight: 440,
-    backgroundColor: "#BFAE56"
+    backgroundColor: "#BFAE56",
   },
 });
 
@@ -56,6 +57,15 @@ export default function ObservationPanel(props) {
     fetchObservations();
   }, [props.size]);
 
+  async function handleDelete(id) {
+    observationService.deleteObservationForAuthUser(id).then(async () => {
+      const result = await observationService.getLastObservationsForAuthUser(
+        props.size
+      );
+      setObservations(result);
+    });
+  }
+
   return (
     <Paper className={classes.root} data-testid="observation-panel-paper">
       Your last observations
@@ -67,11 +77,11 @@ export default function ObservationPanel(props) {
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ 
+                  style={{
                     minWidth: column.minWidth,
                     backgroundColor: "#BFAE56",
                     borderBottom: "none",
-                    color: "#595142"
+                    color: "#595142",
                   }}
                 >
                   {column.label}
@@ -91,16 +101,35 @@ export default function ObservationPanel(props) {
                   {columns.map((column) => {
                     const value = observation[column.id];
                     return (
-                      <TableCell key={column.id} style={{ 
-                        borderBottom: "none",
-                        color: "#595142"
-                      }} align={column.align} >
+                      <TableCell
+                        key={column.id}
+                        style={{
+                          borderBottom: "none",
+                          color: "#595142",
+                        }}
+                        align={column.align}
+                      >
                         {column.format && typeof value === "number"
                           ? column.format(value)
                           : value}
                       </TableCell>
                     );
                   })}
+                  <TableCell
+                    align="right"
+                    style={{
+                      borderBottom: "none",
+                      color: "#595142",
+                    }}
+                  >
+                    <IconButton
+                      aria-label="delete"
+                      className={classes.margin}
+                      onClick={() => handleDelete(observation.id)}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               );
             })}
