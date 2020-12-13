@@ -1,5 +1,6 @@
 import React from "react";
 import ObservationPanel from "./../observation/panel/ObservationPanel";
+import AddObservationButton from "./../observation/add/button/AddObservationButton";
 
 export default function HomePage(props) {
   return (
@@ -7,7 +8,11 @@ export default function HomePage(props) {
       <div data-testid="homepage-hello-text">
         Hello, {props.user ? props.user.username : " please log in"}
       </div>
-      {props.user ? <ObservationPanel size={10} /> : ""}
+      {props.user ? 
+        <div>
+          <AddObservationButton />
+          <ObservationPanel size={10} />
+        </div> : ""}
     </div>
   );
 }
